@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Starcraft</title>
+    <p style="text-align:center">레이스를 드래그해서 조종해보세요! <br></p>
+</head>
+
+<body>
+    &nbsp;&nbsp;&nbsp;<img id="cloaking" src="cloaking.png" alt="cloaking">
+    <p>클락킹 하기</p><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="wraith" src="wraith.png" alt="wraith" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $("#cloaking").first().click(function () {
+                $("#wraith").first().fadeToggle("slow", "linear");
+            });
+        });
+        $(function () {
+            $("#wraith").draggable();
+        });
+    </script>
+</body>
+
+</html>
