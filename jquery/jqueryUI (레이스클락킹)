@@ -12,7 +12,7 @@
 <body>
     &nbsp;&nbsp;&nbsp;<img id="cloaking" src="cloaking.png" alt="cloaking">
     <p>클락킹 하기</p><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="wraith" src="wraith.png" alt="wraith" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="wraith" src="wraith.png" alt="wraith" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
