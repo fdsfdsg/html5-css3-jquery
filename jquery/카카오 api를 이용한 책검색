@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>API연습</title>
+</head>
+
+<body>
+    <h1>카카오 api를 이용한 책 검색</h1>
+    <input id="bookName" value="" type="text">
+    <button id="search">검색</button>
+    <form><input type="button" value="페이지 새로 고침" onClick="history.go(0)"></form>
+    <p></p>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search").click(function () {
+                $.ajax({
+                    method: "GET",
+                    url: "https://dapi.kakao.com/v3/search/book?target=title",
+                    data: { query: $("#bookName").val() },
+                    headers: { Authorization: "KakaoAK 109d50d0d7d24777ac404f20065ca5c6" }
+                })
+                    .done(function (msg) {
+                        console.log(msg);
+                        $("p").append("<strong>" + msg.documents[0].title + "<br><br></strong>");
+                        $("p").append("<img src ='" + msg.documents[0].thumbnail + "'/><br><br>");
+                        $("p").append("<strong>" + msg.documents[0].authors + "</strong><br><br>");
+                        $("p").append("<strong>" + msg.documents[0].contents + "</strong><br><br>");
+                        $("p").append("<strong>" + msg.documents[0].translators + "</strong>");
+                    });
+            })
+        });
+    </script>
+</body>
+
+</html>
