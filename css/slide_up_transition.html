@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            height: 200px;
+            width: 300px;
+            overflow: hidden;
+            background: #ff0;
+        }
+        .hid-box {
+            top: 100%;
+            position: relative;
+            transition: top 0.3s ease;
+            background: #428bca;
+            height: 80px;
+        }
+
+        .box:hover .hid-box {
+            top: 120px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="hid-box">
+            뀨?
+        </div>
+    </div>
+</body>
+</html>
+
