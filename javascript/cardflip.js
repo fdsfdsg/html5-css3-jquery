@@ -9,48 +9,49 @@
     <script>
         var count= 0;
         var card = ["front", "front", "front", "front", "front", "front", "front", "front"];
-        var isflip = (currentcard) => currentcard === "front";
-        while(card.some(isflip)){
+        var isallflip = function (currentcard) { return currentcard === "front"; }
+        
+        function flip() { 
             var ran = Math.floor(Math.random()*8);
             if(ran === card.length-1){
                 if(card[card.length-1] === "back"){
                     card[card.length-1] = "front";
-                    document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
-                    continue;
+                    return;
                 }
                 if(card[card.length-1] === "front"){
                     card[card.length-1] = "back";
-                    document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
-                    continue;
+                    return;
                 }
             }
             if(card[ran] === "front"){
                 card[ran] = "back";
                 if(card[ran+1] === "front"){
                     card[ran+1] = "back";
-                    document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
-                    continue;
+                    return;
                 }
                 if(card[ran+1] === "back"){
                     card[ran+1] = "front";
-                    document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
-                    continue;
+                    return;
                 } 
             }
             if(card[ran] === "back"){
                 card[ran] = "front";
                 if(card[ran+1] === "front"){
                     card[ran+1] = "back";
-                    document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
-                    continue;
+                    return;
                 }
                 if(card[ran+1] === "back"){
                     card[ran+1] = "front";
-                    document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
-                    continue;
+                    return;
                 }
             }
         }
+
+        while(card.some(isallflip)){
+            flip();
+            document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
+        }
+        
    </script>
 </body>
 </html>
