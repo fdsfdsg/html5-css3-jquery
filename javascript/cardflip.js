@@ -7,6 +7,8 @@
 </head>
 <body>
     <script>
+        /*규칙 : 맨마지막을 뒤집을땐 자신이 뒤집힘
+                 카드를 뒤집으면 오른쪽카드도 뒤집힘(단, 뒤집힌 카드를 뒤집으면 오른쪽카드만 뒤집힘)*/
         var count= 0;
         var card = ["front", "front", "front", "front", "front", "front", "front", "front"];
         var isallflip = function (currentcard) { return currentcard === "front"; }
@@ -35,7 +37,6 @@
                 } 
             }
             if(card[ran] === "back"){
-                card[ran] = "front";
                 if(card[ran+1] === "front"){
                     card[ran+1] = "back";
                     return;
