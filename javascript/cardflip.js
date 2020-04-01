@@ -6,51 +6,46 @@
     <title>카드뒤집기</title>
 </head>
 <body>
-    <script>
-        var count= 0;
-        var card = ["front", "front", "front", "front", "front", "front", "front", "front"];
-        var isallflip = function (currentcard) { return currentcard === "front"; }
-        
-        function flip() { 
-            var ran = Math.floor(Math.random()*8);
-            if(ran === card.length-1){
-                if(card[card.length-1] === "back"){
-                    card[card.length-1] = "front";
-                    return;
-                }
-                if(card[card.length-1] === "front"){
-                    card[card.length-1] = "back";
-                    return;
-                }
-            }
-            if(card[ran] === "front"){
-                card[ran] = "back";
-                if(card[ran+1] === "front"){
-                    card[ran+1] = "back";
-                    return;
-                }
-                if(card[ran+1] === "back"){
-                    card[ran+1] = "front";
-                    return;
-                } 
-            }
-            if(card[ran] === "back"){
-                if(card[ran+1] === "front"){
-                    card[ran+1] = "back";
-                    return;
-                }
-                if(card[ran+1] === "back"){
-                    card[ran+1] = "front";
-                    return;
-                }
-            }
-        }
+<script>
+    var count= 0;
+    var card = ["front", "front", "front", "front", "front", "front", "front", "front"];
+    var isallflip = function (currentcard) { return currentcard === "front"; }
 
-        while(card.some(isallflip)){
-            flip();
-            document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
+    function flip() {
+        var ran = Math.floor(Math.random()*8);
+        if(ran === card.length-1){
+            if(card[card.length-1] === "back"){
+                return;
+            }
+            if(card[card.length-1] === "front"){
+                card[card.length-1] = "back";
+                return;
+            }
         }
-        
-   </script>
+        if(card[ran] === "front"){
+            card[ran] = "back";
+            if(card[ran+1] === "front"){
+                card[ran+1] = "back";
+                return;
+            }
+            if(card[ran+1] === "back"){
+                return;
+            }
+        }
+        if(card[ran] === "back"){
+            if(card[ran+1] === "front"){
+                card[ran+1] = "back";
+                return;
+            }
+            if(card[ran+1] === "back"){
+                return;
+            }
+        }
+    }
+    while(card.some(isallflip)){
+        flip();
+        document.write("<div>"+(++count)+"</div>","<div>"+card+"</div>");
+    }
+</script>
 </body>
 </html>
