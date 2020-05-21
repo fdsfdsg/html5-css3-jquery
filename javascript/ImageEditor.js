@@ -1,13 +1,14 @@
 var imageEditor = {
 
-    editImg: ""
+    editImg: null
 
     , init: function() {
         editImg = $('#img_con img')[0];
         this.registEvent();
 
         var w = $('#img_con img').width();
-        $('#width').val(w);
+        $('#width').val(w); 
+
         var h = $('#img_con img').height();
         $('#height').val(h);
 
@@ -17,13 +18,13 @@ var imageEditor = {
 
     , registEvent: function() {
         var _this = this;
+
         $('#show_width').on('click', function () {
-            var get_width = $('#width').val();
-            $('#img_con img').width(get_width);
+            _this.setSize("show_width");
         });
+
         $('#show_height').on('click', function () {
-            var get_height = $('#height').val();
-            $('#img_con img').height(get_height);
+            _this.setSize("show_height");
         });
 
         $("#width").keydown(function(key) {
@@ -37,7 +38,7 @@ var imageEditor = {
                 $('#img_con img').height($('#height').val());
             }
         });
-///////////////////////////////////// 좌측 90 우측 90
+        //////////////////////////// 좌측 90 우측 90
 
         $('#left').on('click', function () {
             _this.setRotation("left");
@@ -46,7 +47,9 @@ var imageEditor = {
         $('#right').on('click', function () {
             _this.setRotation("right");
         });
-/////////////////////////////////////// 좌우반전 상하반전
+        
+        ///////////////////////////// 좌우반전 상하반전
+
         $('#lr_flip').on('click', function () {
             console.log("lr_flip");
             _this.setFlip("X", "Y");
@@ -59,6 +62,14 @@ var imageEditor = {
     }
 
     , setSize: function(type) {
+        if(type == "show_width") {
+            var get_width = $('#width').val();
+            $('#img_con img').width(get_width); // editImg.style.width = get_width +'px'; 이거랑 같은지 확인해보기
+        } else if(type == "show_height") {
+            var get_height = $('#height').val();
+            $('#img_con img').height(get_height);
+        } 
+
     }
 
     , setRotation: function(type) {
@@ -88,7 +99,6 @@ var imageEditor = {
         var applyValue = "";
 
         var scale0 = parseInt(this.getTransform("scale" + type0), 10);
-        console.log("scale0: " + scale0)
         if(isNaN(scale0) || scale0 == 1) {
             scale0 = -1;
         } else {
@@ -97,7 +107,7 @@ var imageEditor = {
         applyValue = "scale" + type0 +"(" + scale0 + ")";
 
         var scale1 = parseInt(this.getTransform("scale" + type1), 10);
-        if(!isNaN(scale1)) {
+        if(!isNaN(scale1)) { // 위 scale0의 if문과 똑같은 구조여야 되지않나?
             applyValue += " scale" + type1 + "(" + scale1 + ")";
         }
 
@@ -105,7 +115,6 @@ var imageEditor = {
         if(!isNaN(rotate)) {
             applyValue += " rotate(" + rotate + "deg)";
         }
-        console.log(applyValue);
         editImg.style.transform = applyValue;
     }
 
