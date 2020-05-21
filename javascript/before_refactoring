@@ -1,0 +1,69 @@
+$(function(){
+    var object = new Object();
+    object = document.querySelector('#img_con img');
+    var angle = 0;
+    var flip_x = 0;
+    var flip_y = 0;
+
+    $(document).ready(function(){
+        var w = $('#img_con img').width();
+        $('#width').val(w);
+        var h = $('#img_con img').height();
+        $('#height').val(h);
+
+        object.style.width = w +'px';
+        object.style.height = h +'px';
+    });
+/////////////////////////////////// 크기 조절
+    $('#show_width').on('click', function () {
+        var get_width = $('#width').val();
+        $('#img_con img').width(get_width);
+    });
+    $('#show_height').on('click', function () {
+        var get_height = $('#height').val();
+        $('#img_con img').height(get_height);
+    });
+
+    $("#width").keydown(function(key) {
+        if (key.keyCode == 13) {
+            $('#img_con img').width($('#width').val());
+        }
+    });
+
+    $("#height").keydown(function(key) {
+        if (key.keyCode == 13) {
+            $('#img_con img').height($('#height').val());
+        }
+    });
+///////////////////////////////////// 좌측 90 우측 90
+
+    $('#left').on('click', function () {
+            angle -= 90;
+            object.style.transform = "rotate(" + angle + "deg)";
+    });
+
+    $('#right').on('click', function () {
+
+            angle += 90;
+            object.style.transform = "rotate(" + angle + "deg)";
+
+    });
+/////////////////////////////////////// 좌우반전 상하반전
+/// img를 불러왔을때 css속성들을 다 가지고 있어야함. 그리고 가지고 있는 속성에 따라서 if문을 태우는걸로 바꿔야함
+    $('#lr_flip').on('click', function () {
+
+            flip_x += 180;
+            object.style.transform += "rotateY(" + flip_x + "deg)";
+      
+    });
+
+    $('#td_flip').on('click', function () {
+        if(!flip_y){
+            flip_y += 180;
+            object.style.transform += "rotateX(" + flip_y + "deg)";
+        } else {
+            flip_y += 180;
+        }
+    });
+
+})
