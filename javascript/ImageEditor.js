@@ -4,16 +4,41 @@ var imageEditor = {
 
     , init: function() {
         editImg = $('#img_con img')[0];
+        editImg.setAttribute("style","zoom: 100%; filter: blur(0px);");
+
         this.registEvent();
 
+        var flag = false;
+
         var w = $('#img_con img').width();
-        $('#width').val(w); 
+        $('#width').val(w);
 
         var h = $('#img_con img').height();
         $('#height').val(h);
 
         editImg.style.width = w +'px';
         editImg.style.height = h +'px';
+
+//////////이미지 크롭 - canvas
+        /*
+        var canvas = document.getElementById("canvas1");
+        var context = canvas.getContext("2d");
+        var imageObj = new Image();
+
+        imageObj.onload = function() {
+            var sourceX = 100;
+            var sourceY = 100;
+            var sourceWidth = 200;
+            var sourceHeight = 100;
+            var destWidth = sourceWidth;
+            var destHeight = sourceHeight;
+            var destX = canvas.width / 2 - destWidth / 2;
+            var destY = canvas.height / 2 - destHeight / 2;
+
+            context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+        };
+        imageObj.src = "../img/facility_3.png";
+        */
     }
 
     , registEvent: function() {
@@ -28,17 +53,12 @@ var imageEditor = {
         });
 
         $("#width").keydown(function(key) {
-            if (key.keyCode == 13) {
-                $('#img_con img').width($('#width').val());
-            }
+            _this.enterKeyDown("width", key);
         });
 
         $("#height").keydown(function(key) {
-            if (key.keyCode == 13) {
-                $('#img_con img').height($('#height').val());
-            }
+            _this.enterKeyDown("height", key);
         });
-        //////////////////////////// 좌측 90 우측 90
 
         $('#left').on('click', function () {
             _this.setRotation("left");
@@ -47,29 +67,61 @@ var imageEditor = {
         $('#right').on('click', function () {
             _this.setRotation("right");
         });
-        
-        ///////////////////////////// 좌우반전 상하반전
 
-        $('#lr_flip').on('click', function () {
-            console.log("lr_flip");
+        $('#x_flip').on('click', function () {
             _this.setFlip("X", "Y");
         });
 
-        $('#td_flip').on('click', function () {
-            console.log("td_flip");
+        $('#y_flip').on('click', function () {
             _this.setFlip("Y", "X");
         });
-    }
 
+        $('#crop').on('click', function(){
+            _this.letCrop();
+        });
+
+        $('#zoom_in').on('click', function(){
+            _this.setZooming("zoom_in");
+        });
+
+        $('#zoom_out').on('click', function(){
+            _this.setZooming("zoom_out");
+        });
+
+        $('#blur').on('input', function() {
+            _this.setFilterBlur();
+        });
+
+        $('#brightness').on('input', function(){
+            _this.setFilterBright();
+        });
+
+        $('#contrast').on('input', function(){
+           _this. setFilterContrast();
+        });
+
+        $('#imageReturn').on('click', function(){
+           _this.init();
+        });
+
+    }
+    , enterKeyDown: function(type,key) {
+        if (type == "width" && key.keyCode == 13) {
+            var w = $('#width').val();
+            $('#img_con img').width(w);
+        } else if (type == "height" && key.keyCode == 13) {
+            var h = $('#height').val();
+            $('#img_con img').height(h);
+        }
+    }
     , setSize: function(type) {
         if(type == "show_width") {
             var get_width = $('#width').val();
-            $('#img_con img').width(get_width); // editImg.style.width = get_width +'px'; 이거랑 같은지 확인해보기
+            editImg.style.width = get_width +'px'; // $('#img_con img').width(get_width);
         } else if(type == "show_height") {
             var get_height = $('#height').val();
-            $('#img_con img').height(get_height);
-        } 
-
+            editImg.style.height = get_height +'px'; // $('#img_con img').height(get_height);
+        }
     }
 
     , setRotation: function(type) {
@@ -80,7 +132,7 @@ var imageEditor = {
         } else {
             rotate += 90;
         }
-        applyValue += "rotate(" + rotate + "deg)";
+        applyValue += "rotate(" + rotate%360 + "deg)";
 
         var scaleX = parseInt(this.getTransform("scaleX"), 10);
         if(!isNaN(scaleX)) {
@@ -107,7 +159,7 @@ var imageEditor = {
         applyValue = "scale" + type0 +"(" + scale0 + ")";
 
         var scale1 = parseInt(this.getTransform("scale" + type1), 10);
-        if(!isNaN(scale1)) { // 위 scale0의 if문과 똑같은 구조여야 되지않나?
+        if(!isNaN(scale1)) {
             applyValue += " scale" + type1 + "(" + scale1 + ")";
         }
 
@@ -119,6 +171,7 @@ var imageEditor = {
     }
 
     , setTransform: function() {
+
     }
 
     , getTransform: function(property) {
@@ -132,6 +185,88 @@ var imageEditor = {
         }
         return "";
     }
+
+    , letCrop: function(){
+
+    }
+
+    , setFilterBlur: function () {
+        var applyValue = "";
+        var current_value = $('#blur').val();
+        applyValue = "blur(" + current_value + "px)";
+
+        var brightness = $('#brightness').val();
+        if(!isNaN(brightness)){
+            applyValue += "brightness(" + ( brightness ) / 10 + ")";
+        }
+
+        var contrast = $('#contrast').val();
+        if(!isNaN(contrast)){
+            applyValue += "contrast(" + ( contrast ) / 10 + ")";
+        }
+
+        editImg.style.filter = applyValue;
+    }
+
+    , setFilterBright: function () {
+        var applyValue = "";
+        var current_value = ($('#brightness').val()) / 10;
+        applyValue = "brightness(" + current_value + ")";
+
+        var blur = $('#blur').val();
+        if(!isNaN(blur)){
+            applyValue += "blur(" + blur + "px)";
+        }
+
+        var contrast = $('#contrast').val();
+        if(!isNaN(contrast)){
+            applyValue += "contrast(" + ( contrast ) / 10 + ")";
+        }
+
+        editImg.style.filter = applyValue;
+    }
+
+    , setFilterContrast: function(){
+        var applyValue = "";
+        var current_value = $('#contrast').val();
+        applyValue = "contrast(" + ( current_value ) / 10 + ")";
+
+        var brightness = $('#brightness').val();
+        if(!isNaN(brightness)){
+            applyValue += "brightness(" + ( brightness ) / 10 + ")";
+        }
+
+        var blur = $('#blur').val();
+        if(!isNaN(blur)){
+            applyValue += "blur(" + blur + "px)";
+        }
+
+        editImg.style.filter = applyValue;
+    }
+
+    , setZooming: function (type) {
+        var now_zoom = parseInt(this.getZooming(),10) || 0;
+
+        if(type == "zoom_in"){
+            now_zoom += 10;
+        } else if(type == "zoom_out") {
+            now_zoom -= 10;
+            if(now_zoom == 0){
+                return 0;
+            }
+        }
+        $('#imageRatio').text(now_zoom + "%");
+        editImg.style.zoom = now_zoom + "%";
+    }
+
+    , getZooming: function () {
+        var values = editImg.style.zoom.split("%");
+        if (!isNaN(values[0])){
+            return values[0];
+        }
+        return "";
+    }
+
 }
 
 $(function() {
